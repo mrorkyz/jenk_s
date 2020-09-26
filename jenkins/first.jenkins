@@ -15,16 +15,17 @@ pipeline {
         timestamps()
     }
 
-} 
 
-/*    stages {
+
+   stages {
         stage('Build') {
             steps {
 				sh 'mvn -version'
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-
+} 		
+/* 
         stage('Run') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
