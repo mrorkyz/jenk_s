@@ -29,7 +29,8 @@ pipeline {
         }
         stage('Run') {
             steps {
-                sh 'java -jar sber_art-1.0-SNAPSHOT.jar  $ARG1 $ARG2'
+                sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  $ARG1 $ARG2'
+				sh 'cat /var/jenkins_home/workspace/pipeline_docker_maven/target/logs.txt'
             }
         }
 } 	
