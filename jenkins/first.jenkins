@@ -16,7 +16,7 @@ pipeline {
     }
  
 
-    stages {
+/*    stages {
         stage('Build') {
             steps {
 				sh 'mvn -version'
@@ -24,10 +24,10 @@ pipeline {
             }
         }
 
-        stage('Deliver') {
+        stage('Run') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-    }
+*/    }
 }
