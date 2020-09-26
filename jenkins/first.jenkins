@@ -6,6 +6,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.6.0-jdk-13'
+			//сохраним зависимости
             args '-v /tmp/maven:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
         }
     }
@@ -14,7 +15,9 @@ pipeline {
         timestamps()
     }
 	environment {
+		
         JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
+		// Параметры для прилаги.
 		ARG1 = "1000"
 		ARG2 = "Hello!!"
     }
@@ -24,25 +27,24 @@ pipeline {
         stage('Build') {
             steps {
 				sh 'mvn -version'
+				// соберем пакетик
                 sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Run') {
             steps {
+				// Дернем прилагу
                 sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  $ARG1 $ARG2'
-				sh 'ls /var/jenkins_home/workspace/pipeline_docker_maven/target/'
+				// Посмотрим что все отработало, можно конечно поставить какую то проверку, что данные есть.
 				sh 'cat /var/jenkins_home/workspace/pipeline_docker_maven/logs.txt'
             }
         }
 } 	
-
-}	
-/* 
-        stage('Run') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-				sh 'cat logs.txt'
-            }
+	// Почистимся.
+    post {
+        always {
+            cleanWs()
         }
-  }
-*/    
+    }
+}	
+
