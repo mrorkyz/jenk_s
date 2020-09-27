@@ -18,7 +18,7 @@ pipeline {
 		
         JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
 		// Параметры для прилаги.
-		ARG1 = "1000"
+		//ARG1 = "1000"
 		ARG2 = "Hello!!"
     }
 
@@ -27,14 +27,14 @@ pipeline {
 		
 		stage ('input'){
 			            input {
-                     message 'Deploy?'
+                     message 'First Parametr?'
                      ok 'Do it!'
                      parameters {
-                         string (name: 'TARGET_ENVIRONMENT', defaultValue: 'PROD', description: 'Target Deployment Evironment')
+                         string (name: 'ARG1', defaultValue: '1000', description: 'First Parameter for APP')
                      }
                  }
             steps {
-                 echo "Deploying on environment ${TARGET_ENVIRONMENT}"
+                 echo "Deploying on environment ${ARG1}"
             }
 			
 		}
