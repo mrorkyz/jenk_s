@@ -19,7 +19,7 @@ pipeline {
         JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
 		// Параметры для прилаги.
 		//ARG1 = "1000"
-//		ARG2 = "Hello!!"
+		//ARG2 = "Hello!!"
     }
 
 
@@ -50,7 +50,7 @@ pipeline {
 				//sh 'kill $(jps | grep sber_art | awk '{print $1}')'
 				// соберем пакетик
                 sh 'mvn -B -DskipTests clean package'
-				sh 'echo $ARG1'
+				sh 'echo $ARG2'
 				
             }
         }
@@ -63,8 +63,6 @@ pipeline {
 						 string (name: 'ARG2', defaultValue: 'Hell!!1', description: 'Second Parameter for APP')
                      }
                  }
-
-			
 			
 			
             steps {
