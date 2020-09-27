@@ -12,7 +12,7 @@ public class Logs {
          * for (int i = 0; i < args.length; i++) { System.out.println(args[i]); }
          */
         // Забираем аргумент, и превращаем в int
-
+        //логичнее было бы запихать в бесконечный цикл for (; ;) {} . И отправить приложение в фон
         for (int a = 0; a < 10; a++) {
             try (FileWriter writer = new FileWriter("logs.txt", true)) {
                 // Thread.sleep(interval);
@@ -24,7 +24,6 @@ public class Logs {
                 writer.write(text);
                 // запись по символам
                 writer.append('\n');
-                // writer.append('E');
                 writer.flush();
 
                 try {

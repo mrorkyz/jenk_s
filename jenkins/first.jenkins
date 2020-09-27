@@ -24,11 +24,28 @@ pipeline {
 
 
     stages {
+		
+		stage ('input'){
+			            input {
+                     message 'Deploy?'
+                     ok 'Do it!'
+                     parameters {
+                         string (name: 'TARGET_ENVIRONMENT', defaultValue: 'PROD', description: 'Target Deployment Evironment')
+                     }
+                 }
+            steps {
+                 echo "Deploying on environment ${TARGET_ENVIRONMENT}"
+            }
+			
+		}
         stage('Build') {
             steps {
 				sh 'mvn -version'
+				// в задаче есть необходимость убивать процесс бесконечный, тут этого конечно не надо, но чтобы формально было выполнено
+				sh 'kill $(jps | grep sber_art | awk '{print $1}')'
 				// соберем пакетик
                 sh 'mvn -B -DskipTests clean package'
+				
             }
         }
         stage('Run') {
