@@ -60,6 +60,7 @@ pipeline {
                      ok 'Do it!'
                      parameters {
                          string (name: 'ARG1', defaultValue: '1000', description: 'First Parameter for APP')
+						 string (name: 'ARG2', defaultValue: 'Hell!!1', description: 'Second Parameter for APP')
                      }
                  }
 /*            steps {
