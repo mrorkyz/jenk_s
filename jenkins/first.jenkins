@@ -42,7 +42,7 @@ pipeline {
             steps {
 				sh 'mvn -version'
 				// в задаче есть необходимость убивать процесс бесконечный, тут этого конечно не надо, но чтобы формально было выполнено
-				sh 'kill $(jps | grep sber_art | awk '{print $1}')'
+				//sh 'kill $(jps | grep sber_art | awk '{print $1}')'
 				// соберем пакетик
                 sh 'mvn -B -DskipTests clean package'
 				
