@@ -35,6 +35,7 @@ pipeline {
                  }
             steps {
                  echo "ARG1 = ${env.ARG1}"
+				 sh 'echo $ARG1'
             }
 			
 		} 
@@ -48,11 +49,13 @@ pipeline {
 				//sh 'kill $(jps | grep sber_art | awk '{print $1}')'
 				// соберем пакетик
                 sh 'mvn -B -DskipTests clean package'
+				sh 'echo $ARG1'
 				
             }
         }
         stage('Run') {
             steps {
+				sh 'echo $ARG1'
 				// Дернем прилагу
                 sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  ${ARG1} $ARG2'
 				// Посмотрим что все отработало, можно конечно поставить какую то проверку, что данные есть.
