@@ -19,12 +19,27 @@ pipeline {
         JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
 		// Параметры для прилаги.
 		//ARG1 = "1000"
-		ARG2 = "Hello!!"
+//		ARG2 = "Hello!!"
     }
 
 
     stages {
 		
+	stage ('input'){
+					            input {
+                     message 'First Parametr?'
+                     ok 'Do it!'
+                     parameters {
+                         string (name: 'ARG2', defaultValue: 'Hell!!', description: 'Second Parameter for APP')
+                     }
+                 }
+
+            steps {
+                 echo "ARG2 = ${env.ARG2}"
+				 sh 'echo $ARG2'
+            }
+			
+		} 
         stage('Build') {
 			
 			
@@ -40,26 +55,28 @@ pipeline {
             }
         }
         stage('Run') {
-			input {
+			            input {
                      message 'First Parametr?'
                      ok 'Do it!'
                      parameters {
                          string (name: 'ARG1', defaultValue: '1000', description: 'First Parameter for APP')
                      }
-					}
-			input {		
-					message 'Second Parametr?'
-                     ok 'Do it!'
-                     parameters {
-                         string (name: 'ARG2', defaultValue: 'Hello Dolly!!', description: 'Second Parameter for APP')
-                     }
-			}
-				
+                 }
+/*            steps {
+                 echo "ARG1 = ${env.ARG1}"
+				 sh 'echo $ARG1'
+            }*/
+
+			
+			
+			
             steps {
 				echo "ARG1 = ${env.ARG1}"
 				sh 'echo $ARG1'
 				// Дернем прилагу
-                sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  $ARG1 $ARG2'
+				  withEnv(['ARG1=${env.ARG1}']) {
+    
+				  sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  $ARG1 $ARG2'}
 				// Посмотрим что все отработало, можно конечно поставить какую то проверку, что данные есть.
 				sh 'cat /var/jenkins_home/workspace/pipeline_docker_maven/logs.txt'
             }
