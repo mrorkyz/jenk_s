@@ -34,7 +34,7 @@ pipeline {
                      }
                  }
             steps {
-                 sh echo "ARG1 = ${env.ARG1}"
+                 sh 'echo "ARG1 = ${env.ARG1}"'
 				 sh 'echo $ARG1'
             }
 			
