@@ -25,7 +25,7 @@ pipeline {
 
     stages {
 		
-		stage ('input'){
+	stage ('input'){
 			            input {
                      message 'First Parametr?'
                      ok 'Do it!'
@@ -37,8 +37,11 @@ pipeline {
                  echo "Deploying on environment ${ARG1}"
             }
 			
-		}
+		} 
         stage('Build') {
+			
+			
+			
             steps {
 				sh 'mvn -version'
 				// в задаче есть необходимость убивать процесс бесконечный, тут этого конечно не надо, но чтобы формально было выполнено
@@ -51,7 +54,7 @@ pipeline {
         stage('Run') {
             steps {
 				// Дернем прилагу
-                sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  $ARG1 $ARG2'
+                sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  ${env.ARG1} $ARG2'
 				// Посмотрим что все отработало, можно конечно поставить какую то проверку, что данные есть.
 				sh 'cat /var/jenkins_home/workspace/pipeline_docker_maven/logs.txt'
             }
