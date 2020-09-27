@@ -6,7 +6,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.6.0-jdk-13'
-			//сохраним зависимости
+			//сохраним зависимости чтобы не перекачивать.
             args '-v /tmp/maven:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
         }
     }
@@ -15,28 +15,31 @@ pipeline {
         timestamps()
     }
 	environment {
-		
+
         JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
-		// Параметры для прилаги.
+		// Параметры для прилаги. Для теста
 		//ARG1 = "1000"
 		//ARG2 = "Hello!!"
     }
 
 
     stages {
-		
+
+		// Можно было сделать стейдж с инпутом и сташить ансташить переменные. или через скрипт,но вдруг запараллелимся,  поэтому я пошел по самому простому пути,
+		// и буру ввод на стадии запуска *).
+
         stage('Build') {
-			
-			
-			
+
+
+
             steps {
 				sh 'mvn -version'
 				// в задаче есть необходимость убивать процесс бесконечный, тут этого конечно не надо, но чтобы формально было выполнено
 				//sh 'kill $(jps | grep sber_art | awk '{print $1}')'
 				// соберем пакетик
                 sh 'mvn -B -DskipTests clean package'
-				
-				
+
+
             }
         }
         stage('Run') {
@@ -48,8 +51,8 @@ pipeline {
 						 string (name: 'ARG2', defaultValue: 'Hell!!1', description: 'Second Parameter for APP')
                      }
                  }
-			
-			
+
+
             steps {
 				// Дернем прилагу
 				sh 'java -jar /var/jenkins_home/workspace/pipeline_docker_maven/target/sber_art-1.0-SNAPSHOT.jar  $ARG1 $ARG2'
@@ -57,12 +60,11 @@ pipeline {
 				sh 'cat /var/jenkins_home/workspace/pipeline_docker_maven/logs.txt'
             }
         }
-} 	
+}
 	// Почистимся.
     post {
         always {
             cleanWs()
         }
     }
-}	
-
+}
