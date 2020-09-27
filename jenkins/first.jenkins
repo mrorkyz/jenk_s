@@ -25,20 +25,21 @@ pipeline {
 
     stages {
 		
-	stage ('input'){
-			            input {
+/*	stage ('input'){
+					            input {
                      message 'First Parametr?'
                      ok 'Do it!'
                      parameters {
                          string (name: 'ARG1', defaultValue: '1000', description: 'First Parameter for APP')
                      }
                  }
+
             steps {
-                 sh 'echo "ARG1 = ${env.ARG1}"'
+                 echo "ARG1 = ${env.ARG1}"
 				 sh 'echo $ARG1'
             }
 			
-		} 
+		} */
         stage('Build') {
 			
 			
@@ -54,7 +55,7 @@ pipeline {
             }
         }
         stage('Run') {
-/*			            input {
+			            input {
                      message 'First Parametr?'
                      ok 'Do it!'
                      parameters {
